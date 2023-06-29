@@ -14,7 +14,7 @@ tags:
 
 题目叫蜡烛，代码如下
 
-![1](xuoneyuan.github.io/img/day8-1.png)
+![1](img/day8-1.png)
 
 >[**preg_replace**](http://php.net/manual/zh/function.preg-replace.php)：(PHP 5.5)
 >
