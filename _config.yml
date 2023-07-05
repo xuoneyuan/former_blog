@@ -1,9 +1,9 @@
 # Site settings
-title: xuoneyuan的博客
+title: xuoneyuan的个人小屋
 SEOTitle: xuoneyuan's blog
 header-img: img/957002.jpg
 email: 1157277847@qq.com
-description: "长风破浪会有时，直挂云帆济沧海"
+description: "假如生活欺骗了你，不要悲伤，不要心急"
 keyword: "网络安全，Java，渗透测试，PHP"
 url: "https://xuoneyuan.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
