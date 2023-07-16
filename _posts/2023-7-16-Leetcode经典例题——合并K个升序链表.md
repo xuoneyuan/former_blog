@@ -49,6 +49,7 @@ tags:
 最后，将剩余的节点直接连接到合并后的链表末尾。\
 返回 dummy.Next 即可得到合并后的链表。
 
+![本图来自leetcode官方题解]({{site.baseurl}}/img-post/leetcode1.png)
 ### code
 ~~~
 /**
