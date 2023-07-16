@@ -60,7 +60,7 @@ tags:
  * }
  */
 func mergeKLists(lists []*ListNode) *ListNode {
-
+//检查边界情况
     if len(lists) == 0 {
         return nil
     }
