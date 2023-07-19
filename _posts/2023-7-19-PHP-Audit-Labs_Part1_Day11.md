@@ -14,7 +14,7 @@ tags:
 
 题目如下：
 
-![](9-1.png)
+![1]({{site.baseurl}}/img-post/9-1.png)
 
 **漏洞解析：** (上图代码第11行正则表达式应改为：'/O:\d:/')
 
@@ -24,11 +24,11 @@ tags:
 
 第二个if判断,匹配 字符串为 \'O:任意十进制:',将对象放入数组进行反序列化后，仍然能够匹配到，返回为空，考虑一下如何绕过正则匹配，PHP反序列化处理部分源码如下：
 
-![2](9-2.png)
+![1]({{site.baseurl}}/img-post/9-2.png)
 
-![3](9-3.png)
+![1]({{site.baseurl}}/img-post/9-3.png)
 
-![4](9-4.png)
+![1]({{site.baseurl}}/img-post/9-4.png)
 
 在PHP源码var_unserializer.c，对反序列化字符串进行处理，在代码568行对字符进行判断，并调用相应的函数进行处理，当字符为'O'时，调用 **yy13** 函数，在 **yy13** 函数中，对‘O‘字符的下一个字符进行判断，如果是':',则调用 **yy17** 函数,如果不是则调用 **yy3** 函数,直接return 0，结束反序列化。接着看 **yy17** 函数。通过观察yybm[]数组可知，第一个if判断是否为数字，如果为数字则跳转到 **yy20** 函数，第二个判断如果是'+'号则跳转到 **yy19** ，在 **yy19** 中，继续对 **+号** 后面的字符进行判断，如果为数字则跳转到 **yy20** ,如果不是则跳转到 **yy18** ， **y18** 最终跳转到 **yy3** ，退出反序列化流程。由此，在'O:',后面可以增加'+'，用来绕过正则判断。
 
@@ -38,7 +38,7 @@ tags:
 
  `$cacheFile` 和 `$template` 为类变量，反序列化可控，由此，构造以下反序列化内容，别忘了加'+'号
 
-![5](9-5.png)
+![1]({{site.baseurl}}/img-post/9-5.png)
 
 放入cookie需进行URL编码
 
@@ -48,25 +48,25 @@ a:1:{i:0;O:+8:"Template":2:{s:9:"cacheFile";s:10:"./test.php";s:8:"template";s:2
 
 文件成功写入：
 
-![6](9-6.png)
+![1]({{site.baseurl}}/img-post/9-6.png)
 
 ## 实例分析
 
 本次实例分析，选取的是 **Typecho-1.1** 版本，在该版本中，用户可通过反序列化Cookie数据进行前台Getshell。该漏洞出现于 **install.php** 文件 **230行** ，具体代码如下：
 
-![7](9-7.png)
+![1]({{site.baseurl}}/img-post/9-7.png)
 
 在上图代码 **第3行** ，对Cookie中的数据base64解码以后，进行了反序列化操作，该值可控，接下来看一下代码触发条件。文件几个关键判断如下：
 
-![8](9-8.png)
+![1]({{site.baseurl}}/img-post/9-8.png)
 
 第一个if判断，可通过GET传递 **finish=任意值** 绕过 ，第二if判断是否有GET或者POST传参，并判断Referer是否为空，第四个if判断Referer是否为本站点。紧接着还有判断，如下图：
 
-![9](9-9.png)
+![1]({{site.baseurl}}/img-post/9-9.png)
 
 第一个if判断 **$_GET['finish']** 是否设置，然后判断 **config.inc.php文件** 是否存在，安装后已存在，第三个判断cookie中 **__typecho_config** 参数是否为空，不为空。进入else分支。综上，具体构造如下图：
 
-![10](9-10.png)
+![1]({{site.baseurl}}/img-post/9-10.png)
 
 ```php
 $config = unserialize(base64_decode(Typecho_Cookie::get('__typecho_config')));
@@ -76,26 +76,26 @@ $db = new Typecho_Db($config['adapter'], $config['prefix']);
 
 反序列化结果存储到 **$config** 变量中，然后将 **$config['adapter']** 和 **$config['prefix']** 作为 **Typecho_Db** 类的初始化变量创建类实例。我们可以在 **var/Typecho/Db.php** 文件中找到该类构造函数代码，具体如下：
 
-![11](9-11.png)
+![1]({{site.baseurl}}/img-post/9-11.png)
 
 上图代码 **第6行** ，对传入的 **$adapterName** 变量进行了字符串拼接操作，对于PHP而言，如果 **$adapterName** 类型为对象，则会调用该类 **__toString()** 魔术方法。可作为反序列化的一个触发点，我们全局搜索一下 **__toString()** ，查看是否有可利用的点。实际搜索时，会发现有三个类都定义了 **__toString()** 方法：
 
-![19](19.png)
+![1]({{site.baseurl}}/img-post/9-19.png)
 
 - 第一处 **var\Typecho\Config.php**：
 
-  ![12](9-12.png)
+![1]({{site.baseurl}}/img-post/9-12.png)
 
   调用 **serialize()** 函数进行序列化操作，会自动触发 **__sleep()** ，如果存在可利用的 **__sleep()** ，则可以进一步利用。
 
 - 第二处 **var\Typecho\Db\Query.php**：
-  ![13](9-13.png)
+ ![1]({{site.baseurl}}/img-post/9-13.png)
 
   该方法用于构建SQL语句，并没有执行数据库操作，所以暂无利用价值。
 
 - 第三处**var\Typecho\Feed.php**：
 
-  ![14](9-14.png)
+![1]({{site.baseurl}}/img-post/9-14.png)
 
   在代码 **19行** ， **$this->_items** 为类变量，反序列化可控，在代码 **27行** ， **$item['author']->screenName** ，如果 **$item['author']** 中存储的类没有'screenName'属性或该属性为私有属性，此时会触发该类中的 **__get()** 魔法方法，这个可作为进一步利用的点，继续往下看代码，未发现有危险函数的调用。
 
@@ -123,19 +123,19 @@ __invoke() //当脚本尝试将对象调用为函数时触发
 
 我们将 **$this->_param['scrrenName']** 的值设置为想要执行的函数，构造 **$this->_filter** 为对应函数的参数值，具体构造如下：
 
-![16](9-16.png)
+![1]({{site.baseurl}}/img-post/9-16.png)
 
 接下来我们去看一下 **Typecho_Feed** 类的构造，该类在 **var/Typecho/Feed.php** 文件中，代码如下：
 
-![14](9-14.png)
+![1]({{site.baseurl}}/img-post/9-14.png)
 
 上图代码 **第7行** ，满足 **self::RSS2** 与 **$this->_type** 相等进入该分支，所以 **$this->_type** 需要构造，**item['author']** 为触发点，需要构造 **$this_items** ，具体构造如下：
 
-![17](9-17.png)
+![1]({{site.baseurl}}/img-post/9-17.png)
 
 代码 **22行** 在实际利用没必要添加，install.php在代码 **54行** 调用 **ob_start()** 函数，该函数对输出内容进行缓冲,反序列化漏洞利用结束后，在**var\Typecho\Db.php**代码121行，触发异常，在 **var\Typecho\Common.php** 代码237行调用 **ob_end_clean()函数** 清除了缓冲区内容，导致无法看见执行结果，考虑在进入到异常处理前提前报错结束程序。由此构造该数据。执行结果如下： 
 
-![18](9-18.png)
+![1]({{site.baseurl}}/img-post/9-18.png)
 
 ## 修复建议
 
