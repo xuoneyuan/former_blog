@@ -115,7 +115,7 @@ __toString() //把类当作字符串使用时触发
 __invoke() //当脚本尝试将对象调用为函数时触发
 ```
 
-在 **var/Typecho/Request.php** 的  **Typecho_Request** 类中，我们发现 **__get()** 方法，跟踪该方法的调用，具体如下图：![15](15.png)
+在 **var/Typecho/Request.php** 的  **Typecho_Request** 类中，我们发现 **__get()** 方法，跟踪该方法的调用，具体如下图：![1]({{site.baseurl}}/img-post/9-15.png)
 
  **array_map()** 函数和 **call_user_func** 函数，都可以作为利用点，**$filter** 作为调用函数，**$value** 为函数参数，跟踪变量,看一下是否可控。这两个变量都来源于类变量，反序列化可控。从上面的分析中，可知当 **$item['author']** 满足一定条件会触发 **__get** 方法。
 
