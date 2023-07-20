@@ -44,8 +44,8 @@ Apache Log4j2 2.x <= 2.14.1\
 Apache Log4j2 2.15.0-rc1（补丁绕过）
 ### 漏洞复现
 #### 环境搭建
-这里我使用的是vulhub，利用docker启动关闭环境
-没有vulhub的可以用这个靶场：https://vulfocus.cn/#/dashboard
+这里我使用的是vulhub，利用docker启动关闭环境\
+没有vulhub的可以用这个靶场：[vulfocus](https://vulfocus.cn/#/dashboard)\
 没有docker的先下载
 ![1]({{site.baseurl}}/img-post/l-1.png)
 vulhub的下载
