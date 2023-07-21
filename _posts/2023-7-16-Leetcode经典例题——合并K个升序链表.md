@@ -51,7 +51,7 @@ tags:
 
 ![本图来自leetcode官方题解]({{site.baseurl}}/img-post/leetcode1.png)
 ### code
-~~~Go
+~~~go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
