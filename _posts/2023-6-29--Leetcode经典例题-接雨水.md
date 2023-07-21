@@ -25,7 +25,7 @@ tags:
 9. 循环结束后，返回累加的积水量 water
 
 ## code
-~~~
+~~~go
 func trap(height []int) int {
 if len(height) < 3 {
         return 0
