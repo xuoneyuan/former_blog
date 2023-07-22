@@ -24,7 +24,8 @@ tags:
 8. 如果 height[left] 大于等于 height[right]，则表示右侧的柱子可以作为积水的右边界。接着判断 height[right] 是否大于 rightMax，如果大于，则更新 rightMax 的值为 height[right]；如果小于或等于 rightMax，则说明可以积水，将积水量累加到 water 中。然后将右指针 right 向左移动一格
 9. 循环结束后，返回累加的积水量 water
 
-## code
+## 题解
+### go
 ~~~go
 func trap(height []int) int {
 if len(height) < 3 {
@@ -57,4 +58,38 @@ if len(height) < 3 {
 
     return water
 }
+~~~
+### cpp
+~~~cpp
+class Solution {
+  public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        if (n == 0) return 0;
+
+        int left = 0, right = n - 1;
+        int leftMax = height[left], rightMax = height[right];
+        int water = 0;
+
+        while (left < right) {
+            if (height[left] < height[right]) {
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    water += leftMax - height[left];
+                }
+                left++;
+            } else {
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+                right--;
+            }
+        }
+
+        return water;
+    }
+};
 ~~~
