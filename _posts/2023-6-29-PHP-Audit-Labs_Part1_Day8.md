@@ -5,7 +5,7 @@ subtitle:   PHP代码审计
 date:       2023-6-29
 author:     水清云影
 header-img: 
-catalog: 	 false
+catalog: 	 true
 tags:
     - 代码审计
     - PHP
@@ -41,7 +41,7 @@ tags:
 ![14]({{site.baseurl}}/img-post/day8-14.png)
 
 
-##实例分析
+## 实例分析
 
 本次实例分析，我们选取的是 **CmsEasy 5.5** 版本，漏洞入口文件为 **/lib/tool/form.php** ，我们可以看到下图第7行处引用了**preg_replace** ，且使用了 **/e** 模式。如果 `$form[$name]['default']` 的内容被正则匹配到，就会执行 **eval** 函数，导致代码执行。具体代码如下：
 
@@ -77,7 +77,7 @@ tags:
 
 ![9]({{site.baseurl}}/img-post/day8-9.png)
 
-##漏洞验证
+## 漏洞验证
 
 1、首先打开首页，点击游客投稿
 
@@ -89,7 +89,7 @@ tags:
 
 ![12]({{site.baseurl}}/img-post/day8-12.png)
 
-##修复方案
+## 修复方案
 漏洞是 **preg_replace()** 存在 **/e** 模式修正符，如果正则匹配成功，会造成代码执行漏洞，因此为了避免这样的问题，我们避免使用 **/e** 模式修正符，如下图第7行：
 
 ![13]({{site.baseurl}}/img-post/day8-13.png)
