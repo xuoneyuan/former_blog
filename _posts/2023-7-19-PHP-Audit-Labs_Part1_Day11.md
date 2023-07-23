@@ -5,7 +5,7 @@ subtitle:   PHP代码审计
 date:       2023-7-19
 author:     licong
 header-img: 
-catalog: 	  false
+catalog: 	true
 tags:
     - 代码审计
     - PHP
