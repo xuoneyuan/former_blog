@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      test
+title:      对大学生活的一点感悟（二）
 subtitle:   
 date:       2023-7-24
 author:    xuoneyuan
