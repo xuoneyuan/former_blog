@@ -94,7 +94,7 @@ wordSet := make(map[string]bool)
 ~~~
 
 #### cpp
-~~~
+~~~cpp
 class Solution {
 public:
     unordered_map<string, int> wordId;
